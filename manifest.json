@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Insta Flow",
-  "version": "0.4.3",
+  "version": "0.4.6",
   "description": "사진과 영상을 원본 비율로 최대 크기로 표시하고 댓글을 숨깁니다.",
   "content_scripts": [
     {

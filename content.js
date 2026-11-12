@@ -30,6 +30,7 @@
   autoButton.textContent = '자동 시작';
   autoButton.setAttribute('aria-pressed', 'false');
   const intervalLabel = document.createElement('label');
+  intervalLabel.className = 'insta-flow-interval';
   intervalLabel.textContent = '사진 간격 ';
   const seconds = document.createElement('input');
   seconds.type = 'number';
@@ -49,6 +50,7 @@
     order.appendChild(option);
   }
   const videoLabel = document.createElement('label');
+  videoLabel.className = 'insta-flow-video-filter';
   const videoOnly = document.createElement('input');
   videoOnly.type = 'checkbox';
   videoOnly.setAttribute('aria-label', '사진을 건너뛰고 영상만 보기');
@@ -60,6 +62,7 @@
   collectButton.textContent = '목록 수집';
   collectButton.title = '프로필 목록을 스크롤하며 게시물 주소를 저장합니다.';
   const catalogStatus = document.createElement('span');
+  catalogStatus.className = 'insta-flow-catalog-status';
   catalogStatus.setAttribute('role', 'status');
   toolbar.append(toggle, autoButton, intervalLabel, order, videoLabel, collectButton, catalogStatus, status);
   document.body.appendChild(toolbar);
@@ -671,6 +674,7 @@
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => root.classList.add('insta-flow-controls-idle'), 2500);
   };
+  toolbar.addEventListener('wheel', showControls, { passive: true });
   document.addEventListener('pointermove', showControls, { passive: true });
   document.addEventListener('pointerdown', showControls, { passive: true });
   document.addEventListener('keydown', showControls, true);
@@ -707,7 +711,7 @@
       console.warn('[Insta Flow] 자동 재생 복원 상태 확인 실패:', error.message);
     }
   };
-  console.info('[Insta Flow] 0.4.3 초기화');
+  console.info('[Insta Flow] 0.4.6 초기화');
   restorePlayback();
   profileTimer = setInterval(() => { refreshProfile(); captureGrid(); update(); }, 1000);
   window.__instaFlowCleanup = () => {
@@ -717,6 +721,7 @@
     clearInterval(profileTimer);
     clearTimeout(idleTimer);
     root.classList.remove('insta-flow-controls-idle');
+    toolbar.removeEventListener('wheel', showControls);
     document.removeEventListener('pointermove', showControls);
     document.removeEventListener('pointerdown', showControls);
     document.removeEventListener('keydown', showControls, true);

@@ -152,7 +152,8 @@
 .insta-flow-toolbar [role="status"]:empty { display: none; }
 .insta-flow-toolbar { max-width: calc(100vw - 48px); flex-wrap: wrap; }
 :root.insta-flow-enabled [role="dialog"] article ._aatk,
-:root.insta-flow-enabled [role="dialog"] article ._aatk :is(div, img, video) {
+:root.insta-flow-enabled [role="dialog"] article ._aatk [data-insta-flow-post-media],
+:root.insta-flow-enabled [role="dialog"] article ._aatk [data-insta-flow-media-box]:not(button):not([role="button"]):not(button *):not([role="button"] *) {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
@@ -214,4 +215,81 @@
   bottom: auto !important;
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
+}
+/* Keep the toolbar between the top Close/Previous controls and bottom Next. */
+.insta-flow-toolbar {
+  top: auto !important;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+  box-sizing: border-box;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 152px - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.insta-flow-toolbar > * { min-width: 0; }
+.insta-flow-toolbar [role="status"] { overflow-wrap: anywhere; }
+/* Form elements need explicit colors and geometry instead of page defaults. */
+.insta-flow-toolbar > * {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  color: #f5f5f5 !important;
+  font: 13px/1.3 system-ui !important;
+}
+.insta-flow-toolbar > :is(button, select, label) {
+  min-height: 40px;
+  border: 1px solid #ffffff66;
+  border-radius: 12px;
+  background: #202020e6;
+}
+.insta-flow-toolbar > :is(button, select) { padding: 8px 10px; }
+.insta-flow-toolbar label {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+.insta-flow-toolbar .insta-flow-interval { gap: 4px; padding: 4px; }
+.insta-flow-toolbar input[type="number"] {
+  box-sizing: border-box !important;
+  flex: 0 0 46px;
+  width: 46px !important;
+  min-width: 0 !important;
+  height: 28px;
+  margin: 0 !important;
+  padding: 3px 4px;
+  color: #f5f5f5 !important;
+  font: 13px/1.3 system-ui !important;
+  text-align: center;
+  border-radius: 8px;
+}
+.insta-flow-toolbar input[type="checkbox"] {
+  box-sizing: border-box !important;
+  flex: 0 0 16px;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+}
+.insta-flow-toolbar .insta-flow-catalog-status { text-align: center; }
+@media (max-width: 600px) {
+  .insta-flow-toolbar {
+    left: 8px !important;
+    right: 8px !important;
+    width: auto;
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px;
+    border-radius: 16px;
+    background: #181818ed;
+  }
+  .insta-flow-toolbar > :is(button, select, label) {
+    width: 100%;
+    white-space: nowrap;
+  }
+  .insta-flow-toolbar .insta-flow-catalog-status,
+  .insta-flow-toolbar [role="status"]:last-child { grid-column: 1 / -1; }
 }

@@ -423,3 +423,35 @@ test('random traversal plays every carousel slide before opening the next post',
   assert.deepEqual(seen, [1, 2, 3]);
   assert.equal(auto.getAttribute('aria-pressed'), 'true');
 });
+
+test('fullscreen keeps rounded button corners while squaring only media containers', () => {
+  const dom = new JSDOM('<html class="insta-flow-enabled"><body><div role="dialog"><article><div class="_aatk"><div data-insta-flow-media-box class="rounded"><img data-insta-flow-post-media></div><div role="button" data-insta-flow-media-box class="rounded"><div data-insta-flow-media-box class="rounded">Next</div></div></div></article></div></body></html>');
+  try {
+    const { window: w } = dom;
+    const style = w.document.createElement('style');
+    style.textContent = '.rounded { border-top-left-radius:16px; border-bottom-left-radius:16px; border-top-right-radius:16px; border-bottom-right-radius:16px; }' + fs.readFileSync(`${__dirname}/../insta-flow.css`, 'utf8');
+    w.document.head.append(style);
+    for (const node of w.document.querySelectorAll('[role="button"], [role="button"] > div')) {
+      assert.equal(w.getComputedStyle(node).borderTopLeftRadius, '16px');
+      assert.equal(w.getComputedStyle(node).borderBottomLeftRadius, '16px');
+    }
+    assert.equal(w.getComputedStyle(w.document.querySelector('[data-insta-flow-media-box]')).borderTopLeftRadius, '0');
+  } finally { dom.window.close(); }
+});
+
+test('toolbar labels and inputs keep their own styling despite Instagram form defaults', async t => {
+  const { w, dom, open } = fixture(storageWorker(), ({ w }) => {
+    const style = w.document.createElement('style');
+    style.textContent = 'label { color:black; display:block; margin:20px; line-height:normal; } input { width:100%; }' + fs.readFileSync(`${__dirname}/../insta-flow.css`, 'utf8');
+    w.document.head.append(style);
+  });
+  t.after(() => { w.__instaFlowCleanup(); dom.window.close(); });
+  open('A');
+  await until(() => !w.document.querySelector('.insta-flow-toggle').hidden, 'modal missing');
+  for (const label of w.document.querySelectorAll('.insta-flow-toolbar label')) {
+    assert.equal(w.getComputedStyle(label).color, 'rgb(245, 245, 245)');
+    assert.equal(w.getComputedStyle(label).display, 'flex');
+    assert.equal(w.getComputedStyle(label).marginTop, '0px');
+  }
+  assert.equal(w.getComputedStyle(w.document.querySelector('input[type="checkbox"]')).width, '16px');
+});
