@@ -1,0 +1,12 @@
+{
+  "name": "insta-flow",
+  "version": "0.4.3",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check content.js && node --check catalog.js && node --check background.js"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

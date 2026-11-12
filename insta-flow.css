@@ -30,7 +30,7 @@
 :root.insta-flow-enabled [role="dialog"] article ._aatk ~ * {
   display: none !important;
 }
-:root.insta-flow-enabled [role="dialog"] article ._aatk :is(img, video) {
+:root.insta-flow-enabled [role="dialog"] article ._aatk [data-insta-flow-post-media] {
   object-fit: contain !important;
   background: #000 !important;
 }
@@ -164,7 +164,7 @@
   padding-bottom: 0 !important;
   box-sizing: border-box !important;
 }
-:root.insta-flow-enabled [role="dialog"] article ._aatk :is(img, video) {
+:root.insta-flow-enabled [role="dialog"] article ._aatk [data-insta-flow-post-media] {
   height: 100% !important;
   max-height: 100% !important;
 }
@@ -182,4 +182,36 @@
   overflow: clip !important;
   contain: paint;
   isolation: isolate;
+}
+.insta-flow-toolbar [hidden] { display: none !important; }
+.insta-flow-toolbar button:disabled { opacity: .5; cursor: default; }
+/* Hide only navigation overlays; player controls remain available. */
+.insta-flow-toolbar,
+.insta-flow-boundary-arrow,
+:root.insta-flow-enabled [role="dialog"] button._abl- {
+  transition: opacity 160ms ease;
+}
+:root.insta-flow-controls-idle .insta-flow-toolbar:not(:has(:focus-visible)),
+:root.insta-flow-controls-idle .insta-flow-boundary-arrow:not(:focus-visible),
+:root.insta-flow-enabled.insta-flow-controls-idle [role="dialog"] button._abl-:not(:focus-visible) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .insta-flow-toolbar,
+  .insta-flow-boundary-arrow,
+  :root.insta-flow-enabled [role="dialog"] button._abl- { transition: none; }
+}
+
+/* Responsive author rows and comments are separate from post media. */
+:root.insta-flow-enabled [role="dialog"] article:has(._aatk) [data-insta-flow-viewer-chrome] { display: none !important; }
+/* Anchor the media itself to the viewport, independent of row/column layout. */
+:root.insta-flow-enabled [role="dialog"] article ._aatk {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
 }
