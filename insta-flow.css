@@ -1,0 +1,185 @@
+/* Keep Instagram's own carousel, video player and navigation controls. */
+:root.insta-flow-enabled [role="dialog"]:has(article ._aatk) {
+  background: #000 !important;
+}
+:root.insta-flow-enabled [role="dialog"] article:has(._aatk) {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  background: #000 !important;
+}
+:root.insta-flow-enabled [role="dialog"] article:has(._aatk) > div {
+  width: 100% !important;
+  height: 100% !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: #000 !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk {
+  flex: none !important;
+  width: min(100vw, calc(100dvh * var(--insta-flow-media-ratio, .75))) !important;
+  height: min(100dvh, calc(100vw / var(--insta-flow-media-ratio, .75))) !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  background: #000 !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk ~ * {
+  display: none !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk :is(img, video) {
+  object-fit: contain !important;
+  background: #000 !important;
+}
+/* Post navigation stays separate from the arrows inside the carousel. */
+:root.insta-flow-enabled [role="dialog"] div:has(> button._abl-) {
+  position: relative !important;
+  z-index: 100 !important;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl- {
+  position: fixed !important;
+  top: auto !important;
+  bottom: 20px !important;
+  width: 148px !important;
+  height: 46px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border: 1px solid #ffffff55 !important;
+  border-radius: 24px !important;
+  background: #202020e6 !important;
+  color: white !important;
+  z-index: 100 !important;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl-:has(svg:is([aria-label="돌아가기"], [aria-label="Go back"], [aria-label="Back"])) {
+  left: 50% !important;
+  right: auto !important;
+  top: 16px !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl-:has(svg:is([aria-label="돌아가기"], [aria-label="Go back"], [aria-label="Back"]))::after {
+  content: "이전 게시물";
+  font: 14px system-ui;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl-:has(svg:is([aria-label="다음"], [aria-label="Next"])) {
+  right: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl-:has(svg:is([aria-label="다음"], [aria-label="Next"]))::after {
+  content: "다음 게시물";
+  font: 14px system-ui;
+}
+:root.insta-flow-enabled [role="dialog"] button._abl- svg {
+  transform: rotate(90deg) !important;
+}
+:root.insta-flow-enabled .insta-flow-boundary-arrow {
+  position: fixed !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 101 !important;
+  width: 44px;
+  height: 56px;
+  border: 1px solid #ffffff55;
+  border-radius: 12px;
+  color: #fff;
+  background: #202020cc;
+  font: 42px/1 system-ui;
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+:root.insta-flow-enabled .insta-flow-boundary-arrow[data-direction="back"] { left: 16px; }
+:root.insta-flow-enabled .insta-flow-boundary-arrow[data-direction="next"] { right: 16px; }
+:root.insta-flow-enabled .insta-flow-boundary-arrow[hidden] { display: none !important; }
+
+.insta-flow-boundary-arrow[hidden] { display: none !important; }
+.insta-flow-toggle {
+  position: fixed !important;
+  top: 10px !important;
+  left: 16px !important;
+  z-index: 2147483647 !important;
+  padding: 9px 16px;
+  border: 1px solid #ffffff66;
+  border-radius: 22px;
+  color: #fff;
+  background: #20202099;
+  backdrop-filter: blur(8px);
+  font: 14px system-ui;
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+.insta-flow-toggle[hidden] { display: none !important; }
+.insta-flow-toolbar {
+  position: fixed !important;
+  top: 10px !important;
+  left: 16px !important;
+  z-index: 2147483647 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid #ffffff44;
+  border-radius: 24px;
+  color: #fff;
+  background: #20202099;
+  backdrop-filter: blur(8px);
+  font: 14px system-ui;
+  pointer-events: auto !important;
+}
+.insta-flow-toolbar[hidden] { display: none !important; }
+.insta-flow-toolbar .insta-flow-toggle { position: static !important; background: transparent; backdrop-filter: none; }
+.insta-flow-toolbar button, .insta-flow-toolbar select, .insta-flow-toolbar input {
+  color: #fff;
+  background: #202020cc;
+  border: 1px solid #ffffff66;
+  border-radius: 16px;
+  padding: 8px 12px;
+  font: 14px system-ui;
+  pointer-events: auto !important;
+}
+.insta-flow-toolbar input { width: 52px; padding: 6px; margin-right: 4px; }
+.insta-flow-toolbar button { cursor: pointer; }
+.insta-flow-toolbar button[aria-pressed="true"] { border-color: #a5ffc9; }
+.insta-flow-toolbar label { white-space: nowrap; }
+.insta-flow-toolbar :is(button, input, select):focus-visible { outline: 2px solid #a5ffc9; outline-offset: 2px; }
+.insta-flow-toolbar input[type="checkbox"] { width: auto; margin: 0 2px 0 0; accent-color: #a5ffc9; }
+.insta-flow-toolbar [role="status"] { font-size: 12px; }
+.insta-flow-toolbar [role="status"]:empty { display: none; }
+.insta-flow-toolbar { max-width: calc(100vw - 48px); flex-wrap: wrap; }
+:root.insta-flow-enabled [role="dialog"] article ._aatk,
+:root.insta-flow-enabled [role="dialog"] article ._aatk :is(div, img, video) {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk [data-insta-flow-media-box] {
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk :is(img, video) {
+  height: 100% !important;
+  max-height: 100% !important;
+}
+/* Keep the viewport and carousel clipping stable at the image boundary. */
+:root.insta-flow-enabled:has([role="dialog"] article ._aatk),
+:root.insta-flow-enabled:has([role="dialog"] article ._aatk) body {
+  overflow: hidden !important;
+}
+:root.insta-flow-enabled [role="dialog"] article:has(._aatk) {
+  overflow: clip !important;
+}
+:root.insta-flow-enabled [role="dialog"] article ._aatk {
+  width: var(--insta-flow-media-width, min(100vw, calc(100dvh * var(--insta-flow-media-ratio, .75)))) !important;
+  height: var(--insta-flow-media-height, min(100dvh, calc(100vw / var(--insta-flow-media-ratio, .75)))) !important;
+  overflow: clip !important;
+  contain: paint;
+  isolation: isolate;
+}
